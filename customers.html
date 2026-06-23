@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers · Handled</title>
+  <meta name="description" content="Post a task in Gaborone and connect with a verified local worker. Sign up free." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Leaflet for map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+
+<nav class="hd-navbar">
+  <a href="index.html" class="hd-nav-logo">Handled</a>
+  <div class="hd-nav-links">
+    <a href="index.html"     class="hd-nav-link">Home</a>
+    <a href="services.html"  class="hd-nav-link">Services</a>
+    <a href="workers.html"   class="hd-nav-link">Workers</a>
+    <a href="customers.html" class="hd-nav-link">Customers</a>
+    <a href="about.html"     class="hd-nav-link">About</a>
+    <a href="contact.html"   class="hd-nav-link">Contact</a>
+  </div>
+  <div class="hd-nav-actions">
+    <a href="customers.html" class="hd-btn hd-btn-ghost hd-btn-sm">Login</a>
+    <a href="customers.html" class="hd-btn hd-btn-primary hd-btn-sm">Get Started</a>
+  </div>
+  <button class="hd-hamburger" id="hd-hamburger"><span></span><span></span><span></span></button>
+</nav>
+<div class="hd-mobile-menu" id="hd-mobile-menu">
+  <a href="index.html"     class="hd-mob-link">Home</a>
+  <a href="services.html"  class="hd-mob-link">Services</a>
+  <a href="workers.html"   class="hd-mob-link">Workers</a>
+  <a href="customers.html" class="hd-mob-link">Customers</a>
+  <a href="about.html"     class="hd-mob-link">About</a>
+  <a href="contact.html"   class="hd-mob-link">Contact</a>
+</div>
+
+<div class="hd-page hd-customers">
+  <div class="hd-section">
+    <div class="hd-wrap">
+
+      <!-- ── AUTH SECTION ── -->
+      <div id="auth-section">
+        <div class="hd-section-label">Get Started</div>
+        <div class="hd-section-title">Post a task in minutes.</div>
+        <p class="hd-section-sub">Log in or create a free account to post tasks and connect with verified workers in Gaborone.</p>
+
+        <div class="hd-auth-wrap">
+          <div class="hd-auth-box">
+            <div class="hd-auth-box-title">Customer Account</div>
+            <div class="hd-auth-box-sub">Access your tasks and track progress.</div>
+            <div class="hd-tab-row">
+              <button class="hd-tab active" onclick="switchAuthTab('login')">Login</button>
+              <button class="hd-tab"        onclick="switchAuthTab('reg')">Register</button>
+            </div>
+            <div id="auth-login">
+              <div class="hd-form-group"><label>Email</label><input type="email" id="c-login-email" placeholder="your@email.com"/></div>
+              <div class="hd-form-group"><label>Password</label><input type="password" id="c-login-pass" placeholder="••••••••"/></div>
+              <button class="hd-auth-submit" onclick="doLogin()">Login →</button>
+            </div>
+            <div id="auth-reg" style="display:none">
+              <div class="hd-form-group"><label>Full Name</label><input type="text" id="c-reg-name" placeholder="Your name"/></div>
+              <div class="hd-form-group"><label>Email</label><input type="email" id="c-reg-email" placeholder="your@email.com"/></div>
+              <div class="hd-form-group"><label>Password</label><input type="password" id="c-reg-pass" placeholder="••••••••"/></div>
+              <button class="hd-auth-submit" onclick="doRegister()">Create Account →</button>
+            </div>
+          </div>
+          <div>
+            <div class="hd-section-label" style="margin-bottom:12px">Why Handled?</div>
+            <div style="display:flex;flex-direction:column;gap:13px">
+              <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">🛡️</span><span style="font-size:.87rem;color:var(--muted)">KYC-verified workers only</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">💰</span><span style="font-size:.87rem;color:var(--muted)">Fixed, transparent pricing before you confirm</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">📍</span><span style="font-size:.87rem;color:var(--muted)">Drop a pin — workers come to you</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">💬</span><span style="font-size:.87rem;color:var(--muted)">Direct chat with your worker</span></div>
+              <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">📸</span><span style="font-size:.87rem;color:var(--muted)">Before &amp; after photo proof on every job</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DASHBOARD SECTION ── -->
+      <div id="dashboard-section" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;margin-bottom:24px">
+          <div>
+            <div class="hd-section-label">Customer Dashboard</div>
+            <div class="hd-section-title" style="font-size:1.5rem" id="c-welcome">Welcome!</div>
+          </div>
+          <button class="hd-logout-btn" onclick="doLogout()">Logout</button>
+        </div>
+
+        <!-- CATEGORY PICKER -->
+        <div class="hd-section-label" style="margin-bottom:10px">What do you need help with?</div>
+        <div class="hd-cat-grid" id="cat-grid">
+          <div class="hd-cat-btn" onclick="selectCat('House Cleaning','🏠',this)"><div class="ci">🏠</div><span>House Cleaning</span></div>
+          <div class="hd-cat-btn" onclick="selectCat('Gardening','🌿',this)"><div class="ci">🌿</div><span>Gardening</span></div>
+          <div class="hd-cat-btn" onclick="selectCat('Moving Assistance','📦',this)"><div class="ci">📦</div><span>Moving</span></div>
+          <div class="hd-cat-btn" onclick="selectCat('Handyman','🔨',this)"><div class="ci">🔨</div><span>Handyman</span></div>
+          <div class="hd-cat-btn" onclick="selectCat('Plumbing','🔧',this)"><div class="ci">🔧</div><span>Plumbing</span></div>
+          <div class="hd-cat-btn" onclick="selectCat('Delivery','🛵',this)"><div class="ci">🛵</div><span>Delivery</span></div>
+          <div class="hd-cat-btn" onclick="selectCat('Miscellaneous','🎲',this)"><div class="ci">🎲</div><span>Miscellaneous</span></div>
+        </div>
+
+        <!-- POST FORM -->
+        <div id="post-form" style="display:none" class="hd-post-form">
+          <h4 id="form-title">Post a Request</h4>
+          <!-- Sub options injected here -->
+          <div id="sub-options"></div>
+          <!-- Misc budget -->
+          <div id="misc-budget-wrap" style="display:none" class="hd-form-group">
+            <label>Your budget (min P150)</label>
+            <input type="number" id="misc-budget" min="150" placeholder="e.g. 250" oninput="updatePrice()"/>
+          </div>
+          <div class="hd-form-group">
+            <label>Description</label>
+            <textarea id="task-desc" placeholder="Describe what you need done..."></textarea>
+          </div>
+          <div class="hd-form-row">
+            <div class="hd-form-group">
+              <label>Location / Address</label>
+              <input type="text" id="task-loc" placeholder="e.g. Plot 1234, Block 6"/>
+            </div>
+            <div class="hd-form-group">
+              <label>Preferred Date (optional)</label>
+              <input type="date" id="task-date"/>
+            </div>
+          </div>
+          <div class="hd-form-group">
+            <label>Location type</label>
+            <select id="task-loctype" onchange="updatePrice()">
+              <option value="inside">Inside Gaborone (+P30 transport)</option>
+              <option value="outside">Outside Gaborone (+P50 transport)</option>
+            </select>
+          </div>
+          <div class="hd-form-group">
+            <label>Drop a pin on the map (optional)</label>
+            <div id="hd-task-map"></div>
+            <p id="map-pin-info" style="font-size:.72rem;color:var(--success);margin-top:5px"></p>
+          </div>
+          <div id="price-estimate" style="display:none" class="hd-price-estimate">
+            <div class="hd-pe-label">Estimated total</div>
+            <div class="hd-pe-total" id="pe-total">P0</div>
+            <div class="hd-pe-breakdown" id="pe-breakdown"></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <button class="hd-btn hd-btn-primary" onclick="postTask()">Post Task →</button>
+            <button class="hd-btn hd-btn-ghost" onclick="cancelForm()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- MY REQUESTS -->
+        <div style="margin-top:28px">
+          <div class="hd-section-label" style="margin-bottom:12px">My Requests</div>
+          <div id="req-list"><div class="hd-empty-state"><div class="ei">📋</div><p>No requests yet — pick a service above!</p></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="hd-footer">
+    <div class="hd-footer-logo">Handled</div>
+    <div class="hd-footer-links">
+      <a href="index.html">Home</a><a href="services.html">Services</a>
+      <a href="about.html">About</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="hd-footer-copy">© 2025 Handled · Gaborone, Botswana</div>
+  </footer>
+</div>
+
+<div id="toast-container"></div>
+<script src="store.js"></script>
+<script>
+// ─── State ───────────────────────────────────────────────────────────────────
+let currentCustomer = null;
+let selectedCat = null;
+let selectedEmoji = null;
+let currentSubOpt = null;  // { name, price }
+let mapCoords = null;
+let leafMap = null;
+let leafMarker = null;
+
+const PRICING = {
+  'House Cleaning':    { type:'options', label:'House size',   options:{'Single Room':120,'1 Bedroom':180,'2 Bedroom':250,'3 Bedroom':350,'4 Bedroom+':450} },
+  'Gardening':         { type:'options', label:'Garden size',  options:{'Small (townhouse/front)':120,'Medium (standard residential)':220,'Large (large property)':350,'Extra Large (plot/estate)':500} },
+  'Moving Assistance': { type:'options', label:'Move type',    options:{'Single Item':150,'Room Move':300,'Small House':600,'Large House':1000} },
+  'Handyman':          { type:'options', label:'Job type',     options:{'Simple Fix':120,'Furniture Assembly':180,'TV Mounting':250,'General Repairs (per hr)':150} },
+  'Plumbing':          { type:'options', label:'Job type',     options:{'Leaking Tap':150,'Blocked Drain':220,'Toilet Repair':250,'Pipe Repair':350} },
+  'Delivery':          { type:'options', label:'Package size', options:{'Small Package':50,'Medium Package':80,'Large Package':120,'Heavy Item':220}, noTransport:true },
+  'Miscellaneous':     { type:'misc',    minPrice:150 },
+};
+const TFEE = { inside:30, outside:50 };
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+function switchAuthTab(t) {
+  document.getElementById('auth-login').style.display = t==='login' ? '' : 'none';
+  document.getElementById('auth-reg').style.display   = t==='reg'   ? '' : 'none';
+  document.querySelectorAll('.hd-tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&t==='login')||(i===1&&t==='reg')));
+}
+
+function doLogin() {
+  const email = document.getElementById('c-login-email').value.trim();
+  const pass  = document.getElementById('c-login-pass').value;
+  const u = store.getUsers()[email];
+  if (!u || u.pass!==pass || u.role!=='customer') { toast('Invalid credentials.','✕'); return; }
+  loginCustomer(u);
+}
+
+function doRegister() {
+  const name  = document.getElementById('c-reg-name').value.trim();
+  const email = document.getElementById('c-reg-email').value.trim();
+  const pass  = document.getElementById('c-reg-pass').value;
+  if (!name||!email||!pass) { toast('Fill in all fields.','⚠'); return; }
+  const users = store.getUsers();
+  if (users[email]) { toast('Account already exists.','⚠'); return; }
+  const u = { name, email, pass, role:'customer' };
+  users[email] = u;
+  store.saveUsers(users);
+  store.addNotif('New Customer', name+' ('+email+') registered.');
+  loginCustomer(u);
+}
+
+function loginCustomer(u) {
+  currentCustomer = u;
+  document.getElementById('auth-section').style.display      = 'none';
+  document.getElementById('dashboard-section').style.display = '';
+  document.getElementById('c-welcome').textContent = 'Welcome, '+u.name.split(' ')[0]+'!';
+  renderRequests();
+  toast('Welcome! Post your first task.','👋');
+  setTimeout(initMap, 300);
+}
+
+function doLogout() {
+  currentCustomer = null; selectedCat = null; currentSubOpt = null; mapCoords = null; leafMap = null; leafMarker = null;
+  document.getElementById('auth-section').style.display      = '';
+  document.getElementById('dashboard-section').style.display = 'none';
+  document.getElementById('post-form').style.display = 'none';
+  toast('Logged out.','👋');
+}
+
+// ─── Map ──────────────────────────────────────────────────────────────────────
+function initMap() {
+  if (leafMap) return;
+  const el = document.getElementById('hd-task-map');
+  if (!el || typeof L === 'undefined') return;
+  leafMap = L.map(el).setView([-24.653, 25.9068], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap', maxZoom:19 }).addTo(leafMap);
+  leafMap.on('click', function(e) {
+    mapCoords = { lat: e.latlng.lat, lng: e.latlng.lng };
+    if (leafMarker) leafMap.removeLayer(leafMarker);
+    leafMarker = L.marker([mapCoords.lat, mapCoords.lng], { draggable:true }).addTo(leafMap).bindPopup('📍 Your task location').openPopup();
+    leafMarker.on('dragend', function(ev){ const ll=ev.target.getLatLng(); mapCoords={lat:ll.lat,lng:ll.lng}; updatePinInfo(); });
+    const inside = mapCoords.lat>-25&&mapCoords.lat<-24.4&&mapCoords.lng>25.7&&mapCoords.lng<26.2;
+    document.getElementById('task-loctype').value = inside ? 'inside' : 'outside';
+    updatePrice();
+    updatePinInfo();
+  });
+  navigator.geolocation && navigator.geolocation.getCurrentPosition(function(p){ leafMap.setView([p.coords.latitude,p.coords.longitude],14); });
+}
+
+function updatePinInfo() {
+  const el = document.getElementById('map-pin-info');
+  if (mapCoords) el.textContent = '📍 Pin set ('+mapCoords.lat.toFixed(4)+', '+mapCoords.lng.toFixed(4)+')';
+}
+
+// ─── Category ─────────────────────────────────────────────────────────────────
+function selectCat(cat, emoji, el) {
+  document.querySelectorAll('.hd-cat-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  selectedCat = cat; selectedEmoji = emoji; currentSubOpt = null;
+  document.getElementById('form-title').textContent = 'Post a '+cat+' Request';
+  document.getElementById('task-desc').value='';
+  document.getElementById('task-loc').value='';
+  document.getElementById('task-date').value='';
+  buildSubOptions(cat);
+  document.getElementById('post-form').style.display = '';
+  updatePrice();
+  setTimeout(()=>{ document.getElementById('post-form').scrollIntoView({behavior:'smooth',block:'start'}); if(leafMap) leafMap.invalidateSize(); },50);
+}
+
+function buildSubOptions(cat) {
+  const p = PRICING[cat];
+  const miscWrap = document.getElementById('misc-budget-wrap');
+  const subWrap  = document.getElementById('sub-options');
+  miscWrap.style.display = p.type==='misc' ? '' : 'none';
+  if (p.type==='options') {
+    subWrap.innerHTML = `<div class="hd-form-group"><label>${p.label}</label><div style="display:flex;flex-wrap:wrap">`+
+      Object.entries(p.options).map(([k,v])=>`<button type="button" class="hd-sub-opt-btn" onclick="pickSub('${k}',${v},this)">${k} — <strong style="color:var(--accent)">P${v}</strong></button>`).join('')+
+      `</div></div>`;
+  } else { subWrap.innerHTML = ''; }
+}
+
+function pickSub(name, price, el) {
+  document.querySelectorAll('.hd-sub-opt-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  currentSubOpt = { name, price };
+  updatePrice();
+}
+
+function updatePrice() {
+  if (!selectedCat) return;
+  const p = PRICING[selectedCat];
+  const lt = document.getElementById('task-loctype').value;
+  const tf = p.noTransport ? 0 : TFEE[lt] || 30;
+  let sp=0, breakdown='';
+  if (p.type==='options' && currentSubOpt) { sp=currentSubOpt.price; breakdown=currentSubOpt.name+': P'+sp; }
+  else if (p.type==='misc') {
+    const bv = parseInt(document.getElementById('misc-budget').value)||0;
+    sp = Math.max(bv,150);
+    breakdown = 'Your quote: P'+sp+' (min P150)';
+  }
+  const el = document.getElementById('price-estimate');
+  if (sp>0) {
+    el.style.display='';
+    document.getElementById('pe-total').textContent = 'P'+(sp+tf);
+    document.getElementById('pe-breakdown').textContent = breakdown+(tf>0?' + P'+tf+' transport':'');
+  } else { el.style.display='none'; }
+}
+
+function cancelForm() {
+  document.getElementById('post-form').style.display='none';
+  document.querySelectorAll('.hd-cat-btn').forEach(b=>b.classList.remove('sel'));
+  selectedCat=null; currentSubOpt=null;
+}
+
+// ─── Post Task ────────────────────────────────────────────────────────────────
+function postTask() {
+  if (!selectedCat||!currentCustomer) return;
+  const desc = document.getElementById('task-desc').value.trim();
+  const loc  = document.getElementById('task-loc').value.trim();
+  const dt   = document.getElementById('task-date').value;
+  const lt   = document.getElementById('task-loctype').value;
+  if (!desc||!loc) { toast('Add description and location.','⚠'); return; }
+  const p = PRICING[selectedCat];
+  if (p.type==='options' && !currentSubOpt) { toast('Select a specific option.','⚠'); return; }
+  const tf = p.noTransport ? 0 : TFEE[lt]||30;
+  let sp=currentSubOpt ? currentSubOpt.price : 0;
+  let sub = currentSubOpt ? currentSubOpt.name : '';
+  if (p.type==='misc') { const bv=parseInt(document.getElementById('misc-budget').value)||0; sp=Math.max(bv,150); sub='Miscellaneous task'; }
+  const req = {
+    id: Date.now(),
+    customer: currentCustomer.email,
+    customerName: currentCustomer.name,
+    category: selectedCat, emoji: selectedEmoji, subOption: sub,
+    servicePrice: sp, transportFee: tf, totalPrice: sp+tf,
+    desc, location: loc, locationType: lt,
+    date: dt||null, coords: mapCoords,
+    status: 'pending', worker: null, workerId: null,
+    postedAt: new Date().toLocaleString(),
+    miscQuotes: [], isMisc: p.type==='misc',
+  };
+  const all = store.getRequests(); all.push(req); store.saveRequests(all);
+  store.addNotif('New Task', currentCustomer.name+' posted '+selectedCat+' (P'+(sp+tf)+').');
+  toast('Task posted! Workers will respond soon.','🎉');
+  cancelForm();
+  renderRequests();
+  // Simulate accept after 10s
+  if (!req.isMisc) {
+    setTimeout(()=>{
+      const latest=store.getRequests();
+      const r=latest.find(x=>x.id===req.id);
+      if(r&&r.status==='pending'){ r.status='accepted'; r.worker='Nearby Worker'; r.workerId='sim_worker'; store.saveRequests(latest); toast('A worker accepted your task!','🙌'); renderRequests(); }
+    },10000);
+  }
+}
+
+// ─── Render Requests ──────────────────────────────────────────────────────────
+function renderRequests() {
+  if (!currentCustomer) return;
+  const reqs = store.getRequests().filter(r=>r.customer===currentCustomer.email).reverse();
+  const el = document.getElementById('req-list');
+  if (!reqs.length) { el.innerHTML='<div class="hd-empty-state"><div class="ei">📋</div><p>No requests yet — pick a service above!</p></div>'; return; }
+  const bcMap = { pending:'hd-badge-pending', accepted:'hd-badge-accepted', progress:'hd-badge-progress', done:'hd-badge-done' };
+  const blMap = { pending:'Pending', accepted:'Accepted ✓', progress:'In Progress', done:'Done ✅' };
+  el.innerHTML = reqs.map(r=>`
+    <div class="hd-req-card">
+      <div class="hd-req-card-top">
+        <div class="hd-req-l">
+          <div class="hd-req-emoji">${r.emoji}</div>
+          <div class="hd-req-info">
+            <h5>${r.category}${r.subOption?' — '+r.subOption:''}</h5>
+            <p>${r.location} · ${r.locationType==='outside'?'Outside Gbr':'Inside Gbr'}${r.coords?' · 📌 Pin set':''}</p>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <span class="hd-badge ${bcMap[r.status]||'hd-badge-pending'}">${blMap[r.status]||r.status}</span>
+          <span style="font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;color:var(--accent)">P${r.totalPrice}</span>
+        </div>
+      </div>
+      ${r.worker?`<div style="margin-top:7px;font-size:.73rem;color:var(--muted)">🔨 ${r.worker}</div>`:''}
+      <div style="display:flex;gap:7px;margin-top:9px;flex-wrap:wrap">
+        ${r.status==='accepted'?`<button class="hd-btn hd-btn-sm hd-btn-primary" onclick="markStatus(${r.id},'progress')">Start Job</button>`:''}
+        ${r.status==='progress'?`<button class="hd-btn hd-btn-sm hd-btn-primary" onclick="markStatus(${r.id},'done')">Mark Done</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function markStatus(id, status) {
+  const all = store.getRequests();
+  const r = all.find(x=>x.id===id);
+  if (!r) return;
+  r.status = status;
+  if (status==='done') store.addNotif('Task Completed','Task #'+id+' ('+r.category+') marked done.');
+  store.saveRequests(all);
+  renderRequests();
+  toast(status==='done'?'Job done! ✅':'Job started! 📸','✓');
+}
+</script>
+</body>
+</html>
