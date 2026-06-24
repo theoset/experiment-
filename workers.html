@@ -64,39 +64,33 @@
               <div><div class="hd-wstat-num">2yr</div><div class="hd-wstat-lbl">Exp.</div></div>
             </div>
           </div>
+          
           <div class="hd-worker-card">
             <div class="hd-worker-top">
-              <div class="hd-w-avatar" style="background:#f0c040">T</div>
+              <div class="hd-w-avatar" style="background:#4ade80">G</div>
               <div class="hd-w-info">
-                <h4>Tshego Moleleki <span class="hd-badge hd-badge-verified" style="font-size:.6rem;padding:2px 6px">✓ Verified</span></h4>
-                <p>Gaborone, Broadhurst</p>
+                <h4>Gary <span class="hd-badge hd-badge-verified" style="font-size:.6rem;padding:2px 6px">✓ Verified</span></h4>
+                <p>Gaborone, Phase 2</p>
               </div>
             </div>
             <div class="hd-w-skills">
-              <span class="hd-skill-tag">🔧 Plumbing</span>
               <span class="hd-skill-tag">🔨 Handyman</span>
+              <span class="hd-skill-tag">🔧 Plumbing</span>
             </div>
+            <!-- ── FIXED Layout containers for matching side-by-side display rendering ── -->
             <div class="hd-w-stats">
-              <div><div class="hd-wstat-num">124</div><div class="hd-wstat-lbl">Jobs</div></div>
-              <div><div class="hd-wstat-num">5.0★</div><div class="hd-wstat-lbl">Rating</div></div>
-              <div><div class="hd-wstat-num">5yr</div><div class="hd-wstat-lbl">Exp.</div></div>
-            </div>
-          </div>
-          <div class="hd-worker-card">
-            <div class="hd-worker-top">
-              <div class="hd-w-avatar" style="background:#e07b30">L</div>
-              <div class="hd-w-info">
-                <h4>Lesego Dube <span class="hd-badge hd-badge-pending-kyc" style="font-size:.6rem;padding:2px 6px">⏳ KYC Pending</span></h4>
-                <p>Tlokweng</p>
+              <div>
+                <div class="hd-wstat-num">134</div>
+                <div class="hd-wstat-lbl">Jobs</div>
               </div>
-            </div>
-            <div class="hd-w-skills">
-              <span class="hd-skill-tag">🛵 Delivery</span>
-              <span class="hd-skill-tag">📦 Moving</span>
-            </div>
-            <div class="hd-w-stats">
-              <div><div class="hd-wstat-num">0</div><div class="hd-wstat-lbl">Jobs</div></div>
-              <div><div class="hd-wstat-num">—</div><div class="hd-wstat-lbl">Rating</div></div>
+              <div>
+                <div class="hd-wstat-num">5.0★</div>
+                <div class="hd-wstat-lbl">Rating</div>
+              </div>
+              <div>
+                <div class="hd-wstat-num">4yr</div>
+                <div class="hd-wstat-lbl">Exp.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -163,14 +157,6 @@
                 </div>
               </div>
             </div>
-            <div class="hd-form-group">
-              <label>Proof of Address (optional)</label>
-              <div class="hd-kyc-upload-box" onclick="document.getElementById('kyc-addr').click()">
-                <input type="file" id="kyc-addr" accept="image/*,.pdf" style="display:none" onchange="setFile(this,'kyc-addr-name','📄')">
-                <div class="ub-icon">📄</div><p>Utility bill or bank statement</p>
-                <div class="ub-name" id="kyc-addr-name"></div>
-              </div>
-            </div>
             <button class="hd-auth-submit" onclick="doWorkerRegister()">Submit Registration & KYC →</button>
           </div>
         </div>
@@ -221,26 +207,22 @@
 let currentWorker = null;
 let isOnline = false;
 
-// ── tab switch ──
 function switchTab(t) {
   document.getElementById('tab-wlogin').style.display = t==='wlogin' ? '' : 'none';
   document.getElementById('tab-wreg').style.display   = t==='wreg'   ? '' : 'none';
   document.querySelectorAll('.hd-tab').forEach((b,i)=> b.classList.toggle('active', (i===0 && t==='wlogin')||(i===1 && t==='wreg')));
 }
 
-// ── service checkbox guard ──
 function toggleSvc(cb) {
   const checked = document.querySelectorAll('#svc-pick input:checked');
   if (checked.length > 4) { cb.checked = false; toast('Maximum 4 services allowed.','⚠'); }
 }
 
-// ── kyc file label ──
 function setFile(inp, labelId) {
   const el = document.getElementById(labelId);
   if (el && inp.files[0]) el.textContent = inp.files[0].name;
 }
 
-// ── login ──
 function doWorkerLogin() {
   const email = document.getElementById('w-login-email').value.trim();
   const pass  = document.getElementById('w-login-pass').value;
@@ -248,52 +230,6 @@ function doWorkerLogin() {
   const u = users[email];
   if (!u || u.pass !== pass || u.role !== 'worker') { toast('Invalid credentials.','✕'); return; }
   loginWorker(u);
-}
-
-// ── register ──
-async function doWorkerRegister() {
-  const name  = document.getElementById('w-reg-name').value.trim();
-  const email = document.getElementById('w-reg-email').value.trim();
-  const pass  = document.getElementById('w-reg-pass').value;
-  const phone = document.getElementById('w-reg-phone').value.trim();
-  const loc   = document.getElementById('w-reg-loc').value.trim();
-  const svcs  = [...document.querySelectorAll('#svc-pick input:checked')].map(c=>c.value);
-  const hasId      = !!document.getElementById('kyc-id').files[0];
-  const hasSelfie = !!document.getElementById('kyc-selfie').files[0];
-  
-  if (!name||!email||!pass) { toast('Fill in all required fields.','⚠'); return; }
-  if (!svcs.length) { toast('Select at least one service.','⚠'); return; }
-  if (!hasId||!hasSelfie) { toast('Upload Government ID and Selfie.','⚠'); return; }
-  
-  // Real-time integration into your 'worker_profiles' Supabase table
-  if (window.supabaseClient) {
-    const { data, error } = await window.supabaseClient
-      .from('worker_profiles')
-      .insert([
-        {
-          name: name,
-          email: email,
-          phone: phone,
-          location_area: loc,
-          services: svcs,
-          kyc_status: 'pending' // Initial status state for Admin approval pipelines
-        }
-      ]);
-
-    if (error) {
-      toast('Registration Error: ' + error.message, '✕');
-      return;
-    }
-  }
-
-  const users = store.getUsers();
-  if (users[email]) { toast('Account already exists.','⚠'); return; }
-  const u = { name, email, pass, role:'worker', phone, location:loc, services:svcs, kyc:{ status:'pending', submittedAt:new Date().toLocaleString() }, jobsDone:0, rating:0 };
-  users[email] = u;
-  store.saveUsers(users);
-  store.addNotif('New Worker', name+' ('+email+') registered.');
-  loginWorker(u);
-  toast('Registered! KYC pending review.','🎉');
 }
 
 function loginWorker(u) {
@@ -402,23 +338,86 @@ function doWorkerLogout() {
 }
 </script>
 
-<!-- ─── Supabase Configuration Script File Async Interface Injection ─── -->
+<!-- ─── SUPABASE LOGIC & REAL-TIME INTERFACES ─── -->
 <script src="supabase.js"></script>
-
 <script>
-  // Cloud fetch function targeted explicitly at your live 'jobs' table matrix container
-  async function loadTasksFromCloud() {
-    if (!window.supabaseClient) {
-      console.warn("Supabase context engine reference target unresolved.");
-      return;
-    }
-    const { data, error } = await window.supabaseClient
-      .from('jobs')
-      .select('*');
-        
-    if (error) console.error("Cloud Error Fetch query failure operations:", error.message);
-    else console.log("Live Cloud Data synced data payloads:", data);
+async function doWorkerRegister() {
+  const name  = document.getElementById('w-reg-name').value.trim();
+  const email = document.getElementById('w-reg-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('w-reg-pass').value;
+  const phone = document.getElementById('w-reg-phone').value.trim();
+  const loc   = document.getElementById('w-reg-loc').value.trim();
+  const svcs  = [...document.querySelectorAll('#svc-pick input:checked')].map(c => c.value);
+  const hasId      = !!document.getElementById('kyc-id').files[0];
+  const hasSelfie = !!document.getElementById('kyc-selfie').files[0];
+  
+  if (!name || !email || !pass || !phone || !loc) { alert('Please fill in all fields.'); return; }
+  if (!svcs.length) { alert('Select at least one service.'); return; }
+  if (!hasId || !hasSelfie) { alert('Upload Government ID and Selfie.'); return; }
+
+  const nameParts = name.split(' ');
+  const firstName = nameParts[0];
+  const lastName = nameParts.slice(1).join(' ') || '';
+
+  if (!window.supabaseClient) {
+    alert("Supabase client library interface uninitialized.");
+    return;
   }
+
+  // STEP 1: Create core identity account inside the true 'users' table
+  const { data: userData, error: userError } = await window.supabaseClient
+    .from('users')
+    .insert([
+      { 
+        first_name: firstName, 
+        last_name: lastName, 
+        email: email, 
+        phone: phone, 
+        role: 'pending_worker' 
+      }
+    ]).select();
+
+  if (userError) {
+    alert('Users Table Insertion Failure: ' + userError.message);
+    return;
+  }
+
+  const newWorkerUser = userData[0];
+
+  // STEP 2: Bind profile trace strictly into 'worker_profiles' matching relational columns
+  const { error: profileError } = await window.supabaseClient
+    .from('worker_profiles')
+    .insert([
+      {
+        user_id: newWorkerUser.id,
+        bio: 'Offered services list: ' + svcs.join(', ') + '. Area: ' + loc,
+        verified: false,
+        completed_jobs: 0,
+        rating: 5.0
+      }
+    ]);
+
+  if (profileError) {
+    alert('Worker Profiles Configuration Error: ' + profileError.message);
+    return;
+  }
+  
+  alert('Registration successfully submitted to admin evaluation queue queues!');
+  window.location.reload();
+}
+
+async function loadTasksFromCloud() {
+  if (!window.supabaseClient) {
+    console.warn("Supabase context engine reference target unresolved.");
+    return;
+  }
+  const { data, error } = await window.supabaseClient
+    .from('jobs')
+    .select('*');
+      
+  if (error) console.error("Cloud Error Fetch query failure operations:", error.message);
+  else console.log("Live Cloud Data synced data payloads:", data);
+}
 </script>
 
 </body>
