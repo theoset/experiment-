@@ -415,6 +415,22 @@ function markStatus(id, status) {
   renderRequests();
   toast(status==='done'?'Job done! ✅':'Job started! 📸','✓');
 }
-</script>
+  <script>
+    
+  <script src="supabase.js"></script>
+
+  <script>
+    // To access Supabase inside your existing functions now, use:
+    // window.supabaseClient
+    
+    async function loadTasksFromCloud() {
+      const { data, error } = await window.supabaseClient
+        .from('tasks')
+        .select('*');
+        
+      console.log("Live Cloud Data:", data);
+    }
+  </script>
 </body>
 </html>
+
