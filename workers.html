@@ -44,139 +44,33 @@
         <div class="hd-section-title">Verified, rated,<br>ready to go.</div>
         <p class="hd-section-sub">Every worker passes a manual KYC identity check before taking any job. Look for the ✓ Verified badge.</p>
 
-        <div class="hd-workers-grid">
-          <div class="hd-worker-card">
-            <div class="hd-worker-top">
-              <div class="hd-w-avatar" style="background:#4ade80">K</div>
-              <div class="hd-w-info">
-                <h4>Kabo Sithole <span class="hd-badge hd-badge-verified" style="font-size:.6rem;padding:2px 6px">✓ Verified</span></h4>
-                <p>Gaborone, Block 6</p>
-              </div>
-            </div>
-            <div class="hd-w-skills">
-              <span class="hd-skill-tag">🏠 Cleaning</span>
-              <span class="hd-skill-tag">🌿 Gardening</span>
-            </div>
-            <div class="hd-w-stats">
-              <div><div class="hd-wstat-num">87</div><div class="hd-wstat-lbl">Jobs</div></div>
-              <div><div class="hd-wstat-num">4.9★</div><div class="hd-wstat-lbl">Rating</div></div>
-              <div><div class="hd-wstat-num">2yr</div><div class="hd-wstat-lbl">Exp.</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="auth-section" style="margin-top: 40px;">
-        <div class="hd-section-label">Join the Team</div>
-        <div class="hd-section-title">Create your Worker Account</div>
-        <div class="hd-auth-wrap" style="display: grid; grid-template-columns: 1fr; max-width: 500px; margin: 20px auto;">
-          <div class="hd-auth-box" style="background: var(--surface); border: 1px solid var(--border); padding: 30px; border-radius: var(--radius);">
-            <div class="hd-form-group" style="margin-bottom: 15px;">
-              <label style="display:block; font-size: 0.8rem; margin-bottom: 5px;">Full Name</label>
-              <input type="text" id="w-reg-name" placeholder="Your full name" style="width:100%; padding: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm);" />
-            </div>
-            <div class="hd-form-group" style="margin-bottom: 15px;">
-              <label style="display:block; font-size: 0.8rem; margin-bottom: 5px;">Email Address</label>
-              <input type="email" id="w-reg-email" placeholder="your@email.com" style="width:100%; padding: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm);" />
-            </div>
-            <div class="hd-form-group" style="margin-bottom: 15px;">
-              <label style="display:block; font-size: 0.8rem; margin-bottom: 5px;">Password</label>
-              <input type="password" id="w-reg-pass" placeholder="Minimum 6 characters" style="width:100%; padding: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm);" />
-            </div>
-            <div class="hd-form-group" style="margin-bottom: 15px;">
-              <label style="display:block; font-size: 0.8rem; margin-bottom: 5px;">Phone Number</label>
-              <input type="tel" id="w-reg-phone" placeholder="e.g. 71234567" style="width:100%; padding: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm);" />
-            </div>
-            <div class="hd-form-group" style="margin-bottom: 15px;">
-              <label style="display:block; font-size: 0.8rem; margin-bottom: 5px;">Work Location Area</label>
-              <input type="text" id="w-reg-loc" placeholder="e.g. Block 8, Gaborone" style="width:100%; padding: 10px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm);" />
-            </div>
-            <div class="hd-form-group" id="svc-pick" style="margin-bottom: 15px;">
-              <label style="display:block; font-size: 0.8rem; margin-bottom: 5px;">Select Your Services</label>
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85rem; color: var(--muted);">
-                <label><input type="checkbox" value="House Cleaning"> House Cleaning</label>
-                <label><input type="checkbox" value="Gardening"> Gardening</label>
-                <label><input type="checkbox" value="Moving Assistance"> Moving</label>
-                <label><input type="checkbox" value="Handyman"> Handyman</label>
-                <label><input type="checkbox" value="Plumbing"> Plumbing</label>
-                <label><input type="checkbox" value="Delivery"> Delivery</label>
-              </div>
-            </div>
-            
-            <button class="hd-auth-submit" onclick="doWorkerRegister()" style="width:100%; padding: 12px; background: var(--accent); border: none; color: #000; font-weight: bold; border-radius: var(--radius-sm); cursor: pointer;">Submit Registration &amp; KYC →</button>
-          </div>
-        </div>
-      </div>
-
+      <div class="hd-worker-card">
+  <div class="hd-worker-top">
+    <div class="hd-w-avatar" style="background:#4ade80">G</div>
+    <div class="hd-w-info">
+      <h4>Gary <span class="hd-badge hd-badge-verified" style="font-size:.6rem;padding:2px 6px">✓ Verified</span></h4>
+      <p>Gaborone, Phase 2</p>
+    </div>
+  </div>
+  
+  <div class="hd-w-skills">
+    <span class="hd-skill-tag">🔨 Handyman</span>
+    <span class="hd-skill-tag">🔧 Plumbing</span>
+  </div>
+  
+  <!-- ── FIX: Clean individual layout columns for your grid grid items ── -->
+  <div class="hd-w-stats">
+    <div>
+      <div class="hd-wstat-num">134</div>
+      <div class="hd-wstat-lbl">Jobs</div>
+    </div>
+    <div>
+      <div class="hd-wstat-num">5.0★</div>
+      <div class="hd-wstat-lbl">Rating</div>
+    </div>
+    <div>
+      <div class="hd-wstat-num">4yr</div>
+      <div class="hd-wstat-lbl">Exp.</div>
     </div>
   </div>
 </div>
-
-<script src="store.js"></script>
-
-<script src="supabase.js"></script>
-<script>
-async function doWorkerRegister() {
-  const name  = document.getElementById('w-reg-name').value.trim();
-  const email = document.getElementById('w-reg-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('w-reg-pass').value;
-  const phone = document.getElementById('w-reg-phone').value.trim();
-  const loc   = document.getElementById('w-reg-loc').value.trim();
-  const svcs  = [...document.querySelectorAll('#svc-pick input:checked')].map(c => c.value);
-  
-  if (!name || !email || !pass || !phone || !loc) { alert('Please fill in all fields.'); return; }
-  if (!svcs.length) { alert('Select at least one service.'); return; }
-
-  const nameParts = name.split(' ');
-  const firstName = nameParts[0];
-  const lastName = nameParts.slice(1).join(' ') || '';
-
-  if (!window.supabaseClient) {
-    alert("Supabase client library interface uninitialized.");
-    return;
-  }
-
-  // STEP A: Create record strictly inside 'users' table
-  const { data: userData, error: userError } = await window.supabaseClient
-    .from('users')
-    .insert([
-      { 
-        first_name: firstName, 
-        last_name: lastName, 
-        email: email, 
-        phone: phone, 
-        role: 'pending_worker'
-      }
-    ]).select();
-
-  if (userError) {
-    alert('Users Table Insertion Failure: ' + userError.message);
-    return;
-  }
-
-  const newWorkerUser = userData[0];
-
-  // STEP B: Insert safely into 'worker_profiles' without schema cache mismatches
-  const { error: profileError } = await window.supabaseClient
-    .from('worker_profiles')
-    .insert([
-      {
-        user_id: newWorkerUser.id,
-        bio: 'Offered services list: ' + svcs.join(', ') + '. Area: ' + loc,
-        verified: false, // Boolean value type parameters
-        completed_jobs: 0,
-        rating: 5.0
-      }
-    ]);
-
-  if (profileError) {
-    alert('Worker Profiles Configuration Error: ' + profileError.message);
-    return;
-  }
-  
-  alert('Registration successfully submitted to admin evaluation queue queues!');
-  window.location.reload();
-}
-</script>
-</body>
-</html>
