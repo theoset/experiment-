@@ -334,7 +334,7 @@ function cancelForm() {
 }
 
 // ─── Post Task ────────────────────────────────────────────────────────────────
-function postTask() {
+async function postTask() {
   if (!selectedCat||!currentCustomer) return;
   const desc = document.getElementById('task-desc').value.trim();
   const loc  = document.getElementById('task-loc').value.trim();
@@ -347,12 +347,42 @@ function postTask() {
   let sp=currentSubOpt ? currentSubOpt.price : 0;
   let sub = currentSubOpt ? currentSubOpt.name : '';
   if (p.type==='misc') { const bv=parseInt(document.getElementById('misc-budget').value)||0; sp=Math.max(bv,150); sub='Miscellaneous task'; }
+  const totalPrice = sp + tf;
+
+  // Verify that Supabase is loaded safely before running transaction queries
+  if (window.supabaseClient) {
+    const { data, error } = await window.supabaseClient
+      .from('jobs')
+      .insert([
+        {
+          customer_email: currentCustomer.email,
+          customer_name: currentCustomer.name,
+          category: selectedCat,
+          title: sub,
+          price: totalPrice,
+          status: 'pending',
+          date: dt || null,
+          description: desc,
+          location_address: loc,
+          location_type: lt,
+          latitude: mapCoords ? mapCoords.lat : null,
+          longitude: mapCoords ? mapCoords.lng : null
+        }
+      ]);
+
+    if (error) {
+      toast('Cloud Error: ' + error.message, '⚠');
+      return;
+    }
+  }
+
+  // Backup fallback tracking to preserve existing local UI loops
   const req = {
     id: Date.now(),
     customer: currentCustomer.email,
     customerName: currentCustomer.name,
     category: selectedCat, emoji: selectedEmoji, subOption: sub,
-    servicePrice: sp, transportFee: tf, totalPrice: sp+tf,
+    servicePrice: sp, transportFee: tf, totalPrice: totalPrice,
     desc, location: loc, locationType: lt,
     date: dt||null, coords: mapCoords,
     status: 'pending', worker: null, workerId: null,
@@ -360,11 +390,11 @@ function postTask() {
     miscQuotes: [], isMisc: p.type==='misc',
   };
   const all = store.getRequests(); all.push(req); store.saveRequests(all);
-  store.addNotif('New Task', currentCustomer.name+' posted '+selectedCat+' (P'+(sp+tf)+').');
+  store.addNotif('New Task', currentCustomer.name+' posted '+selectedCat+' (P'+totalPrice+').');
   toast('Task posted! Workers will respond soon.','🎉');
   cancelForm();
   renderRequests();
-  // Simulate accept after 10s
+
   if (!req.isMisc) {
     setTimeout(()=>{
       const latest=store.getRequests();
@@ -415,22 +445,27 @@ function markStatus(id, status) {
   renderRequests();
   toast(status==='done'?'Job done! ✅':'Job started! 📸','✓');
 }
-      <script>
+</script>
 
-  <script src="supabase.js"></script>
+<!-- ─── Supabase Configuration Script Module Injection ─── -->
+<script src="supabase.js"></script>
 
-  <script>
-    // To access Supabase inside your existing functions now, use:
-    // window.supabaseClient
-    
-    async function loadTasksFromCloud() {
-      const { data, error } = await window.supabaseClient
-        .from('tasks')
-        .select('*');
-        
-      console.log("Live Cloud Data:", data);
+<script>
+  // Universal fetch execution query directed at your real Supabase tables
+  async function loadTasksFromCloud() {
+    if (!window.supabaseClient) {
+      console.warn("Supabase configuration script missing or asset keys invalid.");
+      return;
     }
-  </script>
+    const { data, error } = await window.supabaseClient
+      .from('jobs')
+      .select('*');
+        
+    if (error) console.error("Cloud database synchronization failed:", error.message);
+    else console.log("Live Cloud Data rows synced successfully:", data);
+  }
+</script>
+
 </body>
 </html>
 
