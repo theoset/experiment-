@@ -39,7 +39,6 @@
   <div class="hd-section">
     <div class="hd-wrap">
 
-      <!-- ── PUBLIC WORKER GRID ── -->
       <div id="public-section">
         <div class="hd-section-label">Our Workers</div>
         <div class="hd-section-title">Verified, rated,<br>ready to go.</div>
@@ -64,38 +63,43 @@
               <div><div class="hd-wstat-num">2yr</div><div class="hd-wstat-lbl">Exp.</div></div>
             </div>
           </div>
-          
           <div class="hd-worker-card">
             <div class="hd-worker-top">
-              <div class="hd-w-avatar" style="background:#4ade80">G</div>
+              <div class="hd-w-avatar" style="background:#f0c040">T</div>
               <div class="hd-w-info">
-                <h4>Gary <span class="hd-badge hd-badge-verified" style="font-size:.6rem;padding:2px 6px">✓ Verified</span></h4>
-                <p>Gaborone, Phase 2</p>
+                <h4>Tshego Moleleki <span class="hd-badge hd-badge-verified" style="font-size:.6rem;padding:2px 6px">✓ Verified</span></h4>
+                <p>Gaborone, Broadhurst</p>
               </div>
             </div>
             <div class="hd-w-skills">
-              <span class="hd-skill-tag">🔨 Handyman</span>
               <span class="hd-skill-tag">🔧 Plumbing</span>
+              <span class="hd-skill-tag">🔨 Handyman</span>
             </div>
-            <!-- ── FIXED Layout containers for matching side-by-side display rendering ── -->
             <div class="hd-w-stats">
-              <div>
-                <div class="hd-wstat-num">134</div>
-                <div class="hd-wstat-lbl">Jobs</div>
+              <div><div class="hd-wstat-num">124</div><div class="hd-wstat-lbl">Jobs</div></div>
+              <div><div class="hd-wstat-num">5.0★</div><div class="hd-wstat-lbl">Rating</div></div>
+              <div><div class="hd-wstat-num">5yr</div><div class="hd-wstat-lbl">Exp.</div></div>
+            </div>
+          </div>
+          <div class="hd-worker-card">
+            <div class="hd-worker-top">
+              <div class="hd-w-avatar" style="background:#e07b30">L</div>
+              <div class="hd-w-info">
+                <h4>Lesego Dube <span class="hd-badge hd-badge-pending-kyc" style="font-size:.6rem;padding:2px 6px">⏳ KYC Pending</span></h4>
+                <p>Tlokweng</p>
               </div>
-              <div>
-                <div class="hd-wstat-num">5.0★</div>
-                <div class="hd-wstat-lbl">Rating</div>
-              </div>
-              <div>
-                <div class="hd-wstat-num">4yr</div>
-                <div class="hd-wstat-lbl">Exp.</div>
-              </div>
+            </div>
+            <div class="hd-w-skills">
+              <span class="hd-skill-tag">🛵 Delivery</span>
+              <span class="hd-skill-tag">📦 Moving</span>
+            </div>
+            <div class="hd-w-stats">
+              <div><div class="hd-wstat-num">0</div><div class="hd-wstat-lbl">Jobs</div></div>
+              <div><div class="hd-wstat-num">—</div><div class="hd-wstat-lbl">Rating</div></div>
             </div>
           </div>
         </div>
 
-        <!-- AUTH BOX -->
         <div class="hd-worker-auth-box">
           <div class="hd-section-label" style="margin-bottom:7px">Join / Login</div>
           <h3 style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:5px">Earn on your schedule.</h3>
@@ -106,14 +110,12 @@
             <button class="hd-tab"        onclick="switchTab('wreg')">Register</button>
           </div>
 
-          <!-- LOGIN -->
           <div id="tab-wlogin">
             <div class="hd-form-group"><label>Email</label><input type="email" id="w-login-email" placeholder="your@email.com" /></div>
             <div class="hd-form-group"><label>Password</label><input type="password" id="w-login-pass" placeholder="••••••••" /></div>
             <button class="hd-auth-submit" onclick="doWorkerLogin()">Login as Worker →</button>
           </div>
 
-          <!-- REGISTER -->
           <div id="tab-wreg" style="display:none">
             <div class="hd-form-group"><label>Full Name</label><input type="text" id="w-reg-name" placeholder="e.g. Kabo Sithole" /></div>
             <div class="hd-form-row">
@@ -157,12 +159,11 @@
                 </div>
               </div>
             </div>
-            <button class="hd-auth-submit" onclick="doWorkerRegister()">Submit Registration & KYC →</button>
+            <button class="hd-auth-submit" onclick="doWorkerRegister()">Submit Registration &amp; KYC →</button>
           </div>
         </div>
       </div>
 
-      <!-- ── WORKER DASHBOARD ── -->
       <div id="dashboard-section" style="display:none">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;margin-bottom:20px">
           <div>
@@ -338,7 +339,6 @@ function doWorkerLogout() {
 }
 </script>
 
-<!-- ─── SUPABASE LOGIC & REAL-TIME INTERFACES ─── -->
 <script src="supabase.js"></script>
 <script>
 async function doWorkerRegister() {
@@ -360,11 +360,11 @@ async function doWorkerRegister() {
   const lastName = nameParts.slice(1).join(' ') || '';
 
   if (!window.supabaseClient) {
-    alert("Supabase client library interface uninitialized.");
+    alert("Supabase client not initialized.");
     return;
   }
 
-  // STEP 1: Create core identity account inside the true 'users' table
+  // STEP A: Insert identity information to the 'users' table (where email/phone reside)
   const { data: userData, error: userError } = await window.supabaseClient
     .from('users')
     .insert([
@@ -384,7 +384,7 @@ async function doWorkerRegister() {
 
   const newWorkerUser = userData[0];
 
-  // STEP 2: Bind profile trace strictly into 'worker_profiles' matching relational columns
+  // STEP B: Bind the profile record to 'worker_profiles' using the returned ID (no name/email/phone columns here)
   const { error: profileError } = await window.supabaseClient
     .from('worker_profiles')
     .insert([
@@ -402,21 +402,15 @@ async function doWorkerRegister() {
     return;
   }
   
-  alert('Registration successfully submitted to admin evaluation queue queues!');
+  alert('Registration successfully submitted! Your application profile is now awaiting KYC review in the Admin Panel.');
   window.location.reload();
 }
 
 async function loadTasksFromCloud() {
-  if (!window.supabaseClient) {
-    console.warn("Supabase context engine reference target unresolved.");
-    return;
-  }
-  const { data, error } = await window.supabaseClient
-    .from('jobs')
-    .select('*');
-      
-  if (error) console.error("Cloud Error Fetch query failure operations:", error.message);
-  else console.log("Live Cloud Data synced data payloads:", data);
+  if (!window.supabaseClient) return;
+  const { data, error } = await window.supabaseClient.from('jobs').select('*');
+  if (error) console.error("Cloud Error:", error.message);
+  else console.log("Live Cloud Data:", data);
 }
 </script>
 
