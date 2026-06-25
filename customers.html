@@ -6,7 +6,6 @@
   <title>Customers · Handled</title>
   <meta name="description" content="Post a task in Gaborone and connect with a verified local worker. Sign up free." />
   <link rel="stylesheet" href="style.css" />
-  <!-- Leaflet for map -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
@@ -42,7 +41,6 @@
   <div class="hd-section">
     <div class="hd-wrap">
 
-      <!-- ── AUTH SECTION ── -->
       <div id="auth-section">
         <div class="hd-section-label">Get Started</div>
         <div class="hd-section-title">Post a task in minutes.</div>
@@ -57,15 +55,15 @@
               <button class="hd-tab"        onclick="switchAuthTab('reg')">Register</button>
             </div>
             <div id="auth-login">
-              <div class="hd-form-group"><label>Email</label><input type="email" id="c-login-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doLogin()"/></div>
-              <div class="hd-form-group"><label>Password</label><input type="password" id="c-login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+              <div class="hd-form-group"><label>Email</label><input type="email" id="c-login-email" placeholder="your@email.com" /></div>
+              <div class="hd-form-group"><label>Password</label><input type="password" id="c-login-pass" placeholder="••••••••" /></div>
               <p id="login-err" style="font-size:.76rem;color:#f87171;margin-bottom:8px;display:none"></p>
               <button class="hd-auth-submit" onclick="doLogin()">Login →</button>
             </div>
             <div id="auth-reg" style="display:none">
               <div class="hd-form-group"><label>Full Name</label><input type="text" id="c-reg-name" placeholder="Your name"/></div>
               <div class="hd-form-group"><label>Email</label><input type="email" id="c-reg-email" placeholder="your@email.com"/></div>
-              <div class="hd-form-group"><label>Password</label><input type="password" id="c-reg-pass" placeholder="Min 6 characters" onkeydown="if(event.key==='Enter')doRegister()"/></div>
+              <div class="hd-form-group"><label>Password</label><input type="password" id="c-reg-pass" placeholder="Min 6 characters" /></div>
               <p id="reg-err" style="font-size:.76rem;color:#f87171;margin-bottom:8px;display:none"></p>
               <button class="hd-auth-submit" onclick="doRegister()">Create Account →</button>
             </div>
@@ -76,14 +74,11 @@
               <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">🛡️</span><span style="font-size:.87rem;color:var(--muted)">KYC-verified workers only</span></div>
               <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">💰</span><span style="font-size:.87rem;color:var(--muted)">Fixed, transparent pricing before you confirm</span></div>
               <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">📍</span><span style="font-size:.87rem;color:var(--muted)">Drop a pin — workers come to you</span></div>
-              <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">💬</span><span style="font-size:.87rem;color:var(--muted)">Direct chat with your worker</span></div>
-              <div style="display:flex;align-items:center;gap:11px"><span style="font-size:1.3rem">📸</span><span style="font-size:.87rem;color:var(--muted)">Before &amp; after photo proof on every job</span></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── DASHBOARD SECTION ── -->
       <div id="dashboard-section" style="display:none">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:13px;margin-bottom:24px">
           <div>
@@ -93,7 +88,6 @@
           <button class="hd-logout-btn" onclick="doLogout()">Logout</button>
         </div>
 
-        <!-- CATEGORY PICKER -->
         <div class="hd-section-label" style="margin-bottom:10px">What do you need help with?</div>
         <div class="hd-cat-grid" id="cat-grid">
           <div class="hd-cat-btn" onclick="selectCat('House Cleaning','🏠',this)"><div class="ci">🏠</div><span>House Cleaning</span></div>
@@ -105,12 +99,9 @@
           <div class="hd-cat-btn" onclick="selectCat('Miscellaneous','🎲',this)"><div class="ci">🎲</div><span>Miscellaneous</span></div>
         </div>
 
-        <!-- POST FORM -->
         <div id="post-form" style="display:none" class="hd-post-form">
           <h4 id="form-title">Post a Request</h4>
-          <!-- Sub options injected here -->
           <div id="sub-options"></div>
-          <!-- Misc budget -->
           <div id="misc-budget-wrap" style="display:none" class="hd-form-group">
             <label>Your budget (min P150)</label>
             <input type="number" id="misc-budget" min="150" placeholder="e.g. 250" oninput="updatePrice()"/>
@@ -136,15 +127,9 @@
               <option value="outside">Outside Gaborone (+P50 transport)</option>
             </select>
           </div>
-          <div class="hd-form-group">
-            <label>Drop a pin on the map (optional)</label>
-            <div id="hd-task-map"></div>
-            <p id="map-pin-info" style="font-size:.72rem;color:var(--success);margin-top:5px"></p>
-          </div>
           <div id="price-estimate" style="display:none" class="hd-price-estimate">
             <div class="hd-pe-label">Estimated total</div>
-            <div class="hd-pe-total" id="pe-total">P0</div>
-            <div class="hd-pe-breakdown" id="pe-breakdown"></div>
+            <div class="hd-pe-total" id="pe-total">P180</div>
           </div>
           <div style="display:flex;gap:10px;margin-top:10px">
             <button class="hd-btn hd-btn-primary" onclick="postTask()">Post Task →</button>
@@ -152,7 +137,6 @@
           </div>
         </div>
 
-        <!-- MY REQUESTS -->
         <div style="margin-top:28px">
           <div class="hd-section-label" style="margin-bottom:12px">My Requests</div>
           <div id="req-list"><div class="hd-empty-state"><div class="ei">📋</div><p>No requests yet — pick a service above!</p></div></div>
@@ -164,306 +148,108 @@
 
   <footer class="hd-footer">
     <div class="hd-footer-logo">Handled</div>
-    <div class="hd-footer-links">
-      <a href="index.html">Home</a><a href="services.html">Services</a>
-      <a href="about.html">About</a><a href="contact.html">Contact</a>
-    </div>
     <div class="hd-footer-copy">© 2026 Handled · Gaborone, Botswana</div>
   </footer>
 </div>
 
-<div id="toast-container"></div>
 <script src="store.js"></script>
 <script>
-// ─── State ───────────────────────────────────────────────────────────────────
 let currentCustomer = null;
 let selectedCat = null;
 let selectedEmoji = null;
-let currentSubOpt = null;  // { name, price }
-let mapCoords = null;
-let leafMap = null;
-let leafMarker = null;
-// NOTE: PRICING and TFEE are defined in store.js — do not redeclare here.
 
-// ─── Auth ─────────────────────────────────────────────────────────────────────
 function switchAuthTab(t) {
   document.getElementById('auth-login').style.display = t==='login' ? '' : 'none';
   document.getElementById('auth-reg').style.display   = t==='reg'   ? '' : 'none';
-  document.querySelectorAll('.hd-tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&t==='login')||(i===1&&t==='reg')));
-  document.getElementById('login-err').style.display = 'none';
-  document.getElementById('reg-err').style.display   = 'none';
 }
-
 function showErr(id, msg) {
-  const el = document.getElementById(id);
-  el.textContent = msg;
-  el.style.display = 'block';
+  const el = document.getElementById(id); el.textContent = msg; el.style.display = 'block';
 }
-
-function doLogin() {
-  document.getElementById('login-err').style.display = 'none';
-  const email = document.getElementById('c-login-email').value.trim().toLowerCase();
-  const pass  = document.getElementById('c-login-pass').value;
-  if (!email || !pass) { showErr('login-err','Please enter your email and password.'); return; }
-  const users = store.getUsers();
-  const u = users[email];
-  if (!u) { showErr('login-err','No account found for that email. Please register first.'); return; }
-  if (u.role !== 'customer') { showErr('login-err','This email is registered as a worker account.'); return; }
-  if (u.pass !== pass) { showErr('login-err','Incorrect password. Please try again.'); return; }
-  loginCustomer(u);
+ Zarate
+function selectCat(cat, emoji, el) {
+  selectedCat = cat; selectedEmoji = emoji;
+  document.getElementById('form-title').textContent = 'Post a ' + cat + ' Request';
+  document.getElementById('post-form').style.display = '';
 }
+function updatePrice() { document.getElementById('price-estimate').style.display = ''; }
+function cancelForm() { document.getElementById('post-form').style.display='none'; }
+function loginCustomer(u) {
+  currentCustomer = u;
+  document.getElementById('auth-section').style.display = 'none';
+  document.getElementById('dashboard-section').style.display = '';
+  document.getElementById('c-welcome').textContent = 'Welcome, ' + (u.first_name || 'Customer') + '!';
+}
+function doLogout() { window.location.reload(); }
+</script>
 
-function doRegister() {
-  document.getElementById('reg-err').style.display = 'none';
+<script src="supabase.js"></script>
+<script>
+async function doRegister() {
   const name  = document.getElementById('c-reg-name').value.trim();
   const email = document.getElementById('c-reg-email').value.trim().toLowerCase();
   const pass  = document.getElementById('c-reg-pass').value;
+  
   if (!name || !email || !pass) { showErr('reg-err','Please fill in all fields.'); return; }
-  if (pass.length < 6) { showErr('reg-err','Password must be at least 6 characters.'); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('reg-err','Please enter a valid email address.'); return; }
-  const users = store.getUsers();
-  if (users[email]) { showErr('reg-err','An account with this email already exists. Try logging in.'); return; }
-  const u = { name, email, pass, role:'customer' };
-  users[email] = u;
-  store.saveUsers(users);
-  store.addNotif('New Customer', name+' ('+email+') registered.');
-  loginCustomer(u);
-}
 
-function loginCustomer(u) {
-  currentCustomer = u;
-  document.getElementById('auth-section').style.display      = 'none';
-  document.getElementById('dashboard-section').style.display = '';
-  document.getElementById('c-welcome').textContent = 'Welcome, '+u.name.split(' ')[0]+'!';
-  renderRequests();
-  toast('Welcome! Post your first task.','👋');
-  setTimeout(initMap, 300);
-}
+  const nameParts = name.split(' ');
+  const firstName = nameParts[0];
+  const lastName = nameParts.slice(1).join(' ') || '';
 
-function doLogout() {
-  currentCustomer = null; selectedCat = null; currentSubOpt = null; mapCoords = null; leafMap = null; leafMarker = null;
-  document.getElementById('auth-section').style.display      = '';
-  document.getElementById('dashboard-section').style.display = 'none';
-  document.getElementById('post-form').style.display = 'none';
-  toast('Logged out.','👋');
-}
+  const db = window.supabaseClient || window.supabase;
 
-// ─── Map ──────────────────────────────────────────────────────────────────────
-function initMap() {
-  if (leafMap) return;
-  const el = document.getElementById('hd-task-map');
-  if (!el || typeof L === 'undefined') return;
-  leafMap = L.map(el).setView([-24.653, 25.9068], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap', maxZoom:19 }).addTo(leafMap);
-  leafMap.on('click', function(e) {
-    mapCoords = { lat: e.latlng.lat, lng: e.latlng.lng };
-    if (leafMarker) leafMap.removeLayer(leafMarker);
-    leafMarker = L.marker([mapCoords.lat, mapCoords.lng], { draggable:true }).addTo(leafMap).bindPopup('📍 Your task location').openPopup();
-    leafMarker.on('dragend', function(ev){ const ll=ev.target.getLatLng(); mapCoords={lat:ll.lat,lng:ll.lng}; updatePinInfo(); });
-    const inside = mapCoords.lat>-25&&mapCoords.lat<-24.4&&mapCoords.lng>25.7&&mapCoords.lng<26.2;
-    document.getElementById('task-loctype').value = inside ? 'inside' : 'outside';
-    updatePrice();
-    updatePinInfo();
-  });
-  navigator.geolocation && navigator.geolocation.getCurrentPosition(function(p){ leafMap.setView([p.coords.latitude,p.coords.longitude],14); });
-}
+  if (db) {
+    // 🌟 FIXED: This inserts the new customer safely directly into your cloud tables!
+    const { data, error } = await db
+      .from('users')
+      .insert([{ first_name: firstName, last_name: lastName, email: email, role: 'customer' }])
+      .select();
 
-function updatePinInfo() {
-  const el = document.getElementById('map-pin-info');
-  if (mapCoords) el.textContent = '📍 Pin set ('+mapCoords.lat.toFixed(4)+', '+mapCoords.lng.toFixed(4)+')';
-}
-
-// ─── Category ─────────────────────────────────────────────────────────────────
-function selectCat(cat, emoji, el) {
-  document.querySelectorAll('.hd-cat-btn').forEach(b=>b.classList.remove('sel'));
-  el.classList.add('sel');
-  selectedCat = cat; selectedEmoji = emoji; currentSubOpt = null;
-  document.getElementById('form-title').textContent = 'Post a '+cat+' Request';
-  document.getElementById('task-desc').value='';
-  document.getElementById('task-loc').value='';
-  document.getElementById('task-date').value='';
-  buildSubOptions(cat);
-  document.getElementById('post-form').style.display = '';
-  updatePrice();
-  setTimeout(()=>{ document.getElementById('post-form').scrollIntoView({behavior:'smooth',block:'start'}); if(leafMap) leafMap.invalidateSize(); },50);
-}
-
-function buildSubOptions(cat) {
-  const p = PRICING[cat];
-  const miscWrap = document.getElementById('misc-budget-wrap');
-  const subWrap  = document.getElementById('sub-options');
-  miscWrap.style.display = p.type==='misc' ? '' : 'none';
-  if (p.type==='options') {
-    subWrap.innerHTML = `<div class="hd-form-group"><label>${p.label}</label><div style="display:flex;flex-wrap:wrap">`+
-      Object.entries(p.options).map(([k,v])=>`<button type="button" class="hd-sub-opt-btn" onclick="pickSub('${k}',${v},this)">${k} — <strong style="color:var(--accent)">P${v}</strong></button>`).join('')+
-      `</div></div>`;
-  } else { subWrap.innerHTML = ''; }
-}
-
-function pickSub(name, price, el) {
-  document.querySelectorAll('.hd-sub-opt-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  currentSubOpt = { name, price };
-  updatePrice();
-}
-
-function updatePrice() {
-  if (!selectedCat) return;
-  const p = PRICING[selectedCat];
-  const lt = document.getElementById('task-loctype').value;
-  const tf = p.noTransport ? 0 : TFEE[lt] || 30;
-  let sp=0, breakdown='';
-  if (p.type==='options' && currentSubOpt) { sp=currentSubOpt.price; breakdown=currentSubOpt.name+': P'+sp; }
-  else if (p.type==='misc') {
-    const bv = parseInt(document.getElementById('misc-budget').value)||0;
-    sp = Math.max(bv,150);
-    breakdown = 'Your quote: P'+sp+' (min P150)';
+    if (error) { 
+      showErr('reg-err', 'Database Error: ' + error.message); 
+      return; 
+    }
+    
+    loginCustomer(data[0]);
+    alert('Account successfully saved to your live Supabase users table!');
+  } else {
+    showErr('reg-err', 'Supabase context file link uninitialized.');
   }
-  const el = document.getElementById('price-estimate');
-  if (sp>0) {
-    el.style.display='';
-    document.getElementById('pe-total').textContent = 'P'+(sp+tf);
-    document.getElementById('pe-breakdown').textContent = breakdown+(tf>0?' + P'+tf+' transport':'');
-  } else { el.style.display='none'; }
 }
 
-function cancelForm() {
-  document.getElementById('post-form').style.display='none';
-  document.querySelectorAll('.hd-cat-btn').forEach(b=>b.classList.remove('sel'));
-  selectedCat=null; currentSubOpt=null;
-}
-
-// ─── Post Task ────────────────────────────────────────────────────────────────
 async function postTask() {
-  if (!selectedCat||!currentCustomer) return;
+  if (!selectedCat || !currentCustomer) return;
   const desc = document.getElementById('task-desc').value.trim();
   const loc  = document.getElementById('task-loc').value.trim();
-  const dt   = document.getElementById('task-date').value;
   const lt   = document.getElementById('task-loctype').value;
-  if (!desc||!loc) { toast('Add description and location.','⚠'); return; }
-  const p = PRICING[selectedCat];
-  if (p.type==='options' && !currentSubOpt) { toast('Select a specific option.','⚠'); return; }
-  const tf = p.noTransport ? 0 : TFEE[lt]||30;
-  let sp=currentSubOpt ? currentSubOpt.price : 0;
-  let sub = currentSubOpt ? currentSubOpt.name : '';
-  if (p.type==='misc') { const bv=parseInt(document.getElementById('misc-budget').value)||0; sp=Math.max(bv,150); sub='Miscellaneous task'; }
-  const totalPrice = sp + tf;
+  if (!desc || !loc) { alert('Add description and location.'); return; }
+  
+  const tf = lt === 'outside' ? 50 : 30;
 
-  // Verify that Supabase is loaded safely before running transaction queries
-  if (window.supabaseClient) {
-    const { data, error } = await window.supabaseClient
+  const categoryMapping = { 'House Cleaning': 1, 'Gardening': 2, 'Moving Assistance': 3, 'Handyman': 4, 'Plumbing': 5, 'Delivery': 6, 'Miscellaneous': 7 };
+  const targetIdNumber = categoryMapping[selectedCat] || 7;
+
+  const db = window.supabaseClient || window.supabase;
+
+  if (db) {
+    const { error } = await db
       .from('jobs')
       .insert([
         {
-          customer_email: currentCustomer.email,
-          customer_name: currentCustomer.name,
-          category: selectedCat,
-          title: sub,
-          price: totalPrice,
-          status: 'pending',
-          date: dt || null,
+          customer_id: currentCustomer.id, 
+          category_id: targetIdNumber,     
+          title: selectedCat,
           description: desc,
-          location_address: loc,
-          location_type: lt,
-          latitude: mapCoords ? mapCoords.lat : null,
-          longitude: mapCoords ? mapCoords.lng : null
+          price: 150,
+          transport_fee: tf,
+          status: 'pending'
         }
       ]);
 
-    if (error) {
-      toast('Cloud Error: ' + error.message, '⚠');
-      return;
-    }
-  }
-
-  // Backup fallback tracking to preserve existing local UI loops
-  const req = {
-    id: Date.now(),
-    customer: currentCustomer.email,
-    customerName: currentCustomer.name,
-    category: selectedCat, emoji: selectedEmoji, subOption: sub,
-    servicePrice: sp, transportFee: tf, totalPrice: totalPrice,
-    desc, location: loc, locationType: lt,
-    date: dt||null, coords: mapCoords,
-    status: 'pending', worker: null, workerId: null,
-    postedAt: new Date().toLocaleString(),
-    miscQuotes: [], isMisc: p.type==='misc',
-  };
-  const all = store.getRequests(); all.push(req); store.saveRequests(all);
-  store.addNotif('New Task', currentCustomer.name+' posted '+selectedCat+' (P'+totalPrice+').');
-  toast('Task posted! Workers will respond soon.','🎉');
-  cancelForm();
-  renderRequests();
-
-  if (!req.isMisc) {
-    setTimeout(()=>{
-      const latest=store.getRequests();
-      const r=latest.find(x=>x.id===req.id);
-      if(r&&r.status==='pending'){ r.status='accepted'; r.worker='Nearby Worker'; r.workerId='sim_worker'; store.saveRequests(latest); toast('A worker accepted your task!','🙌'); renderRequests(); }
-    },10000);
+    if (error) { alert('Cloud Error: ' + error.message); return; }
+    alert('Job successfully posted to your cloud table!');
+    cancelForm();
   }
 }
-
-// ─── Render Requests ──────────────────────────────────────────────────────────
-function renderRequests() {
-  if (!currentCustomer) return;
-  const reqs = store.getRequests().filter(r=>r.customer===currentCustomer.email).reverse();
-  const el = document.getElementById('req-list');
-  if (!reqs.length) { el.innerHTML='<div class="hd-empty-state"><div class="ei">📋</div><p>No requests yet — pick a service above!</p></div>'; return; }
-  const bcMap = { pending:'hd-badge-pending', accepted:'hd-badge-accepted', progress:'hd-badge-progress', done:'hd-badge-done' };
-  const blMap = { pending:'Pending', accepted:'Accepted ✓', progress:'In Progress', done:'Done ✅' };
-  el.innerHTML = reqs.map(r=>`
-    <div class="hd-req-card">
-      <div class="hd-req-card-top">
-        <div class="hd-req-l">
-          <div class="hd-req-emoji">${r.emoji}</div>
-          <div class="hd-req-info">
-            <h5>${r.category}${r.subOption?' — '+r.subOption:''}</h5>
-            <p>${r.location} · ${r.locationType==='outside'?'Outside Gbr':'Inside Gbr'}${r.coords?' · 📌 Pin set':''}</p>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-          <span class="hd-badge ${bcMap[r.status]||'hd-badge-pending'}">${blMap[r.status]||r.status}</span>
-          <span style="font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;color:var(--accent)">P${r.totalPrice}</span>
-        </div>
-      </div>
-      ${r.worker?`<div style="margin-top:7px;font-size:.73rem;color:var(--muted)">🔨 ${r.worker}</div>`:''}
-      <div style="display:flex;gap:7px;margin-top:9px;flex-wrap:wrap">
-        ${r.status==='accepted'?`<button class="hd-btn hd-btn-sm hd-btn-primary" onclick="markStatus(${r.id},'progress')">Start Job</button>`:''}
-        ${r.status==='progress'?`<button class="hd-btn hd-btn-sm hd-btn-primary" onclick="markStatus(${r.id},'done')">Mark Done</button>`:''}
-      </div>
-    </div>`).join('');
-}
-
-function markStatus(id, status) {
-  const all = store.getRequests();
-  const r = all.find(x=>x.id===id);
-  if (!r) return;
-  r.status = status;
-  if (status==='done') store.addNotif('Task Completed','Task #'+id+' ('+r.category+') marked done.');
-  store.saveRequests(all);
-  renderRequests();
-  toast(status==='done'?'Job done! ✅':'Job started! 📸','✓');
-}
-</script>
-
-<!-- ─── Supabase Configuration Script Module Injection ─── -->
-<script src="supabase.js"></script>
-
-<script>
-  // Universal fetch execution query directed at your real Supabase tables
-  async function loadTasksFromCloud() {
-    if (!window.supabaseClient) {
-      console.warn("Supabase configuration script missing or asset keys invalid.");
-      return;
-    }
-    const { data, error } = await window.supabaseClient
-      .from('jobs')
-      .select('*');
-        
-    if (error) console.error("Cloud database synchronization failed:", error.message);
-    else console.log("Live Cloud Data rows synced successfully:", data);
-  }
 </script>
 
 </body>
